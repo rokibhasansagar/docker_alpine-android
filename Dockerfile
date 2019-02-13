@@ -21,7 +21,7 @@ ARG SDK_API_VERSION="27.0.3"
 ENV \
     JAVA_OPTS=" -Djava.net.useSystemProxies=true -Dhttp.noProxyHosts=${no_proxy} " \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
-    ANDROID_HOME=/opt/android/sdk \
+    ANDROID_HOME=/opt/android/sdk/ \
     GRADLE_HOME=/opt/gradle-$GRADLE_VERSION
 #
 RUN set -xe \
@@ -30,7 +30,14 @@ RUN set -xe \
         curl ca-certificates openjdk8 \
         openssl git make libc-dev gcc libstdc++ \
         nodejs nodejs-npm \
-        unzip tar \
+        unzip tar
+#
+RUN set -xe \
+    && groupadd --gid ${PGID} circleci \
+    && useradd --uid ${PUID} --gid circleci --shell /bin/bash --create-home circleci \
+    && echo 'circleci ALL=NOPASSWD: ALL' >> /etc/shadow
+#
+RUN set -xe \
     && mkdir -p \
         ${ANDROID_HOME} \
         ${GRADLE_HOME} \
@@ -38,16 +45,17 @@ RUN set -xe \
         -jkSL https://dl.google.com/android/repository/sdk-tools-linux-${SDK_TOOLS_VERSION}.zip \
     && unzip -q -d ${ANDROID_HOME} \
         /tmp/sdk-tools-linux-${SDK_TOOLS_VERSION}.zip \
+    && chown -Rh circleci:circleci ${ANDROID_HOME} \
     && ls -la ${ANDROID_HOME} \
-    && chmod +x ${ANDROID_HOME}/android ${ANDROID_HOME}/bin/sdkmanager \
+    #&& chmod +x ${ANDROID_HOME}/android ${ANDROID_HOME}/bin/sdkmanager \
+    && curl -o /tmp/gradle-${GRADLE_VERSION}-bin.zip \
+        -jkSL https://services.gradle.org/distributions/gradle-${GRADLE_VERSION}-bin.zip \
+    && unzip -q -d /opt \
+        /tmp/gradle-${GRADLE_VERSION}-bin.zip \
+    && chown -Rh circleci:circleci ${GRADLE_HOME} \
     && npm install -g \
         npm@${NPM_VERSION} \
     && rm -rf /var/cache/apk/* /tmp/* /root/.npm /root/.node-gyp
-#
-RUN set -xe \
-    && groupadd --gid ${PGID} circleci \
-    && useradd --uid ${PUID} --gid circleci --shell /bin/bash --create-home circleci \
-    && echo 'circleci ALL=NOPASSWD: ALL' >> /etc/shadow
 #
 ENV \
     PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${GRADLE_HOME}/bin
