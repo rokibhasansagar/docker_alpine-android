@@ -20,6 +20,13 @@ ARG SDK_API_VERSION="27.0.3"
 #
 RUN addgroup -g ${PGID} -S circleci && \
     adduser -u ${PUID} -G circleci -h /home/circleci -D circleci
+#
+ENV \
+    JAVA_OPTS=" -Djava.net.useSystemProxies=true -Dhttp.noProxyHosts=${no_proxy} " \
+    JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
+    ANDROID_HOME=/opt/android/sdk \
+    GRADLE_HOME=/opt/gradle-$GRADLE_VERSION
+#
 RUN set -xe \
     && apk add -uU --no-cache --purge -uU \
         bash alpine-sdk sudo \
@@ -37,12 +44,6 @@ RUN set -xe \
     && npm install -g \
         npm@${NPM_VERSION} \
     && rm -rf /var/cache/apk/* /tmp/* /root/.npm /root/.node-gyp
-
-ENV \
-    JAVA_OPTS=" -Djava.net.useSystemProxies=true -Dhttp.noProxyHosts=${no_proxy} " \
-    JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
-    ANDROID_HOME=/opt/android/sdk \
-    GRADLE_HOME=/opt/gradle-$GRADLE_VERSION
 #
 ENV \
     PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${GRADLE_HOME}/bin
