@@ -77,6 +77,6 @@ RUN yes | sdkmanager --licenses 1>/dev/null \
 VOLUME /home/circleci/
 WORKDIR /home/circleci/project/
 #
-EXPOSE 5037 8100
+#EXPOSE 5037 8100
 #
 ENTRYPOINT ["/bin/bash"]
