@@ -1,5 +1,5 @@
 # docker_alpine-android
-This Docker image is usable for starting the Android Development Works Only under Circle CI
+This Docker image is usable for starting the Android Development locally
 
 ```shell
 docker pull fr3akyphantom/alpine-android:x86_64
