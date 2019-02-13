@@ -41,6 +41,7 @@ RUN set -xe \
         -jkSL https://dl.google.com/android/repository/sdk-tools-linux-${SDK_TOOLS_VERSION}.zip \
     && unzip -q -d ${ANDROID_HOME} \
         /tmp/sdk-tools-linux-${SDK_TOOLS_VERSION}.zip \
+    && chmod +x ${ANDROID_HOME}/android ${ANDROID_HOME}/bin/sdkmanager \
     && npm install -g \
         npm@${NPM_VERSION} \
     && rm -rf /var/cache/apk/* /tmp/* /root/.npm /root/.node-gyp
