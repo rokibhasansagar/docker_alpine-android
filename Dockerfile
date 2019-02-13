@@ -21,7 +21,7 @@ ARG SDK_API_VERSION="27.0.3"
 RUN addgroup -g ${PGID} -S circleci && \
     adduser -u ${PUID} -G circleci -h /home/circleci -D circleci
 RUN set -xe \
-    && apk add -uU --no-cache --perge -uU \
+    && apk add -uU --no-cache --purge -uU \
         bash alpine-sdk sudo \
         curl ca-certificates openjdk8 \
         openssl git make libc-dev gcc libstdc++ \
