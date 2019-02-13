@@ -24,7 +24,7 @@ RUN addgroup -g ${PGID} -S circleci && \
 ENV \
     JAVA_OPTS=" -Djava.net.useSystemProxies=true -Dhttp.noProxyHosts=${no_proxy} " \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
-    ANDROID_HOME=/opt/android/sdk \
+    ANDROID_HOME=/opt/android/sdk/ \
     GRADLE_HOME=/opt/gradle-$GRADLE_VERSION
 #
 RUN set -xe \
@@ -41,6 +41,7 @@ RUN set -xe \
         -jkSL https://dl.google.com/android/repository/sdk-tools-linux-${SDK_TOOLS_VERSION}.zip \
     && unzip -q -d ${ANDROID_HOME} \
         /tmp/sdk-tools-linux-${SDK_TOOLS_VERSION}.zip \
+    && ls -la ${ANDROID_HOME} \
     && chmod +x ${ANDROID_HOME}/android ${ANDROID_HOME}/bin/sdkmanager \
     && npm install -g \
         npm@${NPM_VERSION} \
