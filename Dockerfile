@@ -26,7 +26,7 @@ RUN set -xe \
         curl ca-certificates openjdk8 \
         openssl git make libc-dev gcc libstdc++ \
         nodejs nodejs-npm \
-        unzip tar wput \
+        unzip tar \
     && mkdir -p \
         ${ANDROID_HOME} \
         ${GRADLE_HOME} \
