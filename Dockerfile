@@ -54,7 +54,8 @@ RUN set -xe \
     && mkdir -p ~/.android ~/.gradle \
     && touch ~/.android/repositories.cfg \
     && echo "org.gradle.daemon=false" >> ~/.gradle/gradle.properties
-RUN yes | sdkmanager --licenses 1>/dev/null && yes | sdkmanager --update \
+RUN yes | sdkmanager --licenses 1>/dev/null \
+    && sdkmanager --update \
     && sdkmanager \
         "platforms;android-${SDK_TARGET}" \
         "build-tools;${SDK_API_VERSION}" \
