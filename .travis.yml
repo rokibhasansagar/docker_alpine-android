@@ -16,7 +16,7 @@ services:
 env:
   global:
     - IMAGE_NAME=alpine-android
-    - IMAGE_TAG=latest
+    - IMAGE_TAG=x86_64
 
 script:
   - "travis_wait 30 sleep 1800 &"
