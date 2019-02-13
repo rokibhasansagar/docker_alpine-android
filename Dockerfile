@@ -18,18 +18,15 @@ ARG NPM_VERSION="latest"
 ARG SDK_TARGET="27"
 ARG SDK_API_VERSION="27.0.3"
 #
-RUN addgroup -g ${PGID} -S circleci && \
-    adduser -u ${PUID} -G circleci -h /home/circleci -D circleci
-#
 ENV \
     JAVA_OPTS=" -Djava.net.useSystemProxies=true -Dhttp.noProxyHosts=${no_proxy} " \
     JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk \
-    ANDROID_HOME=/opt/android/sdk/ \
+    ANDROID_HOME=/opt/android/sdk \
     GRADLE_HOME=/opt/gradle-$GRADLE_VERSION
 #
 RUN set -xe \
     && apk add -uU --no-cache --purge -uU \
-        bash alpine-sdk sudo \
+        bash alpine-sdk sudo shadow \
         curl ca-certificates openjdk8 \
         openssl git make libc-dev gcc libstdc++ \
         nodejs nodejs-npm \
@@ -46,6 +43,11 @@ RUN set -xe \
     && npm install -g \
         npm@${NPM_VERSION} \
     && rm -rf /var/cache/apk/* /tmp/* /root/.npm /root/.node-gyp
+#
+RUN set -xe \
+    && groupadd --gid ${PGID} circleci \
+    && useradd --uid ${PUID} --gid circleci --shell /bin/bash --create-home circleci \
+    && echo 'circleci ALL=NOPASSWD: ALL' >> /etc/shadow
 #
 ENV \
     PATH=$PATH:${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${GRADLE_HOME}/bin
