@@ -1,0 +1,27 @@
+os: linux
+dist: xenial
+
+sudo: required
+
+addon:
+  apt:
+    update: true
+
+git:
+  depth: 3
+
+services:
+  - docker
+
+env:
+  global:
+    - IMAGE_NAME=alpine-android
+    - IMAGE_TAG=latest
+
+script:
+  - "travis_wait 30 sleep 1800 &"
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - docker build --rm --force-rm --compress -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
+
+after_success:
+  - docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG && sleep 5
