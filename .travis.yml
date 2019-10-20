@@ -20,7 +20,7 @@ env:
 
 script:
   - "travis_wait 30 sleep 1800 &"
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_USERNAME --password-stdin
   - docker build --rm --force-rm --compress -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
 
 after_success:
