@@ -5,7 +5,7 @@ ARG USERNAME=fr3akyphantom
 FROM woahbase/alpine-glibc:x86_64
 #
 LABEL maintainer="fr3akyphantom <rokibhasansagar2014@outlook.com>"
-LABEL Description="This Alpine image is used to start the Android API-27 Development Works locally"
+LABEL Description="This Alpine image is used to start the Android APIs {29,28,27,26,25,24} Development Works locally"
 #
 ARG PUID=1000
 ARG PGID=1000
@@ -14,9 +14,6 @@ ENV LANG=C.UTF-8
 ARG SDK_TOOLS_VERSION="4333796"
 ARG GRADLE_VERSION="4.10.2"
 ARG NPM_VERSION="latest"
-#
-ARG SDK_TARGET="29"
-ARG SDK_API_VERSION="29"
 #
 ENV \
     JAVA_OPTS=" -Xmx3200m " \
@@ -67,10 +64,10 @@ RUN set -xe \
 RUN yes | sdkmanager --licenses 1>/dev/null \
     && sdkmanager --update \
     && sdkmanager \
-        "platforms;android-${SDK_TARGET}" "platforms;android-${SDK_TARGET}-1" "platforms;android-${SDK_TARGET}-2" \
-        "platforms;android-${SDK_TARGET}-3" "platforms;android-${SDK_TARGET}-4" "platforms;android-${SDK_TARGET}-5" \
-        "build-tools;${SDK_API_VERSION}" "build-tools;${SDK_API_VERSION}-1" "build-tools;${SDK_API_VERSION}-2" \
-        "build-tools;${SDK_API_VERSION}-3" "build-tools;${SDK_API_VERSION}-4" "build-tools;${SDK_API_VERSION}-5" \
+        "platforms;android-29" "platforms;android-28" "platforms;android-27" \
+        "platforms;android-25" "platforms;android-24" "platforms;android-23" \
+        "build-tools;29.0.2" "build-tools;28.0.3" "build-tools;27.0.3" \
+        "build-tools;26.0.3" "build-tools;25.0.3" "build-tools;24.0.3" \
         "platform-tools" \
         "tools" 1>/dev/null
 #
