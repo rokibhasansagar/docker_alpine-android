@@ -12,11 +12,11 @@ ARG PGID=1000
 ENV LANG=C.UTF-8
 #
 ARG SDK_TOOLS_VERSION="4333796"
-ARG GRADLE_VERSION="4.7"
+ARG GRADLE_VERSION="4.10.2"
 ARG NPM_VERSION="latest"
 #
-ARG SDK_TARGET="27"
-ARG SDK_API_VERSION="27.0.3"
+ARG SDK_TARGET="29"
+ARG SDK_API_VERSION="29"
 #
 ENV \
     JAVA_OPTS=" -Xmx3200m " \
@@ -67,8 +67,10 @@ RUN set -xe \
 RUN yes | sdkmanager --licenses 1>/dev/null \
     && sdkmanager --update \
     && sdkmanager \
-        "platforms;android-${SDK_TARGET}" \
-        "build-tools;${SDK_API_VERSION}" \
+        "platforms;android-${SDK_TARGET}" "platforms;android-${SDK_TARGET}-1" "platforms;android-${SDK_TARGET}-2" \
+        "platforms;android-${SDK_TARGET}-3" "platforms;android-${SDK_TARGET}-4" "platforms;android-${SDK_TARGET}-5" \
+        "build-tools;${SDK_API_VERSION}" "build-tools;${SDK_API_VERSION}-1" "build-tools;${SDK_API_VERSION}-2" \
+        "build-tools;${SDK_API_VERSION}-3" "build-tools;${SDK_API_VERSION}-4" "build-tools;${SDK_API_VERSION}-5" \
         "platform-tools" \
         "tools" 1>/dev/null
 #
