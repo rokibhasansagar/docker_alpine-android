@@ -5,7 +5,7 @@ ARG USERNAME=fr3akyphantom
 FROM woahbase/alpine-glibc:x86_64
 #
 LABEL maintainer="fr3akyphantom <rokibhasansagar2014@outlook.com>"
-LABEL Description="This Alpine image is used to start the Android APIs {29,28,27,26,25,24} Development Works locally"
+LABEL Description="This Alpine image is used to start the Android App Development Works locally"
 #
 ARG PUID=1000
 ARG PGID=1000
@@ -48,7 +48,7 @@ RUN set -xe \
     && unzip -q -d /opt \
         /tmp/gradle-${GRADLE_VERSION}-bin.zip \
     && chown -Rh alpine:alpine ${GRADLE_HOME} \
-    && npm install -g \
+    && npm install --unsafe-perm -g \
         npm@${NPM_VERSION} \
     && rm -rf /var/cache/apk/* /tmp/* /root/.npm /root/.node-gyp
 #
@@ -64,10 +64,10 @@ RUN set -xe \
 RUN yes | sdkmanager --licenses 1>/dev/null \
     && sdkmanager --update \
     && sdkmanager \
-        "platforms;android-29" "platforms;android-28" "platforms;android-27" \
-        "platforms;android-25" "platforms;android-24" "platforms;android-23" \
+#        "platforms;android-29" "platforms;android-28" "platforms;android-27" \
+#        "platforms;android-25" "platforms;android-24" "platforms;android-23" \
         "build-tools;29.0.2" "build-tools;28.0.3" "build-tools;27.0.3" \
-        "build-tools;26.0.3" "build-tools;25.0.3" "build-tools;24.0.3" \
+#        "build-tools;26.0.3" "build-tools;25.0.3" "build-tools;24.0.3" \
         "platform-tools" \
         "tools" 1>/dev/null
 #
