@@ -1,14 +1,12 @@
 os: linux
-dist: xenial
-
-sudo: required
+dist: bionic
 
 addon:
   apt:
     update: true
 
 git:
-  depth: 3
+  depth: 1
 
 services:
   - docker
@@ -24,4 +22,5 @@ script:
   - docker build --rm --force-rm --compress -t $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG -f Dockerfile .
 
 after_success:
-  - docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG && sleep 5
+  - docker push $DOCKER_USERNAME/$IMAGE_NAME:$IMAGE_TAG && sleep 2
+  - curl -X POST 'https://hooks.microbadger.com/images/fr3akyphantom/alpine-android/fQ9_Cx3nJ7z30FsuOV6ujHCaMfo=' && echo ''
